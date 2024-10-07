@@ -1,0 +1,6 @@
+<ul>
+  @for (user of maleUsers(); track $index) {
+    <li>name: {{user.name}} | gender:{{user.gender}}</li>
+  }
+</ul>
+<button (click)="updateUser()">Update User</button>
