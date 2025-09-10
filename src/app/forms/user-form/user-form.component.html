@@ -1,0 +1,52 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <label for="name">Name:</label>
+  <input type="text" formControlName="name" placeholder="Name" />
+  <div
+    *ngIf="userForm.get('name')?.errors?.['minlength'] && userForm.get('name')?.touched"
+  >
+    Username is required (min 3 chars)
+  </div>
+  <div *ngIf="userForm.get('name')?.hasError('noSpaces')">
+    Username cannot contain spaces
+  </div>
+  <div *ngIf="userForm.get('name')?.hasError('usernameTaken')">
+    Username already taken
+  </div>
+  <br />
+  <label for="age">Age:</label>
+  <input type="number" formControlName="age" placeholder="Age" />
+  <div *ngIf="userForm.get('age')?.hasError('minAge')">
+    Must be at least
+    {{ userForm.get("age")?.getError("minAge")?.required }} (you entered
+    {{ userForm.get("age")?.getError("minAge")?.actual }})
+  </div>
+  <br />
+  <label for="email">Email:</label>
+  <input type="email" formControlName="email" placeholder="email" />
+  <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+    Enter a valid email
+  </div>
+  <br />
+  <label for="contact">Contact Info:</label>
+  <div formGroupName="contact">
+    <input formControlName="email" placeholder="secondary email" />
+    <input formControlName="phone" placeholder="phone" />
+  </div>
+  <br />
+  <label for="gender">Gender:</label>
+  <select formControlName="gender">
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+  </select>
+  <br />
+  <label for="hobbies">Hobbies:</label>
+  <div formArrayName="hobbies">
+    <div *ngFor="let hobby of hobbies.controls; let i = index">
+      <input [formControlName]="i" />
+    </div>
+    <button type="button" (click)="addHobby()">+ Add Hobby</button>
+  </div>
+  <button type="submit">Submit</button>
+</form>
+
+<pre>{{ userForm.value | json }}</pre>

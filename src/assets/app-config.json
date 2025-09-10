@@ -1,0 +1,11 @@
+{
+  "apiBaseUrl": "https://base.api.com",
+  "appName": "MyAngularApp",
+  "version": "1.0.0",
+  "featureFlags": {
+    "enableChat": true,
+    "enableBetaFeatures": false
+  },
+  "defaultLanguage": "en",
+  "theme": "light"
+}

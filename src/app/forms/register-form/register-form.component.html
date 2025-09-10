@@ -1,0 +1,54 @@
+<div class="container">
+  <h2>Register</h2>
+
+  <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+    <!-- Name -->
+    <div>
+      <label for="name">Name:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        [(ngModel)]="user.name"
+        required
+        #name="ngModel"
+      />
+      <div *ngIf="name.invalid && name.touched" style="color:red">
+        Name is required
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div>
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        [(ngModel)]="user.email"
+        required
+        email
+        #email="ngModel"
+      />
+      <div *ngIf="email.invalid && email.touched" style="color:red">
+        Enter a valid email
+      </div>
+    </div>
+
+    <!-- Gender -->
+    <div>
+      <label>Gender:</label>
+      <select name="gender" [(ngModel)]="user.gender" required>
+        <option value="" disabled selected>Select one</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+    </div>
+
+    <button type="submit" [disabled]="userForm.invalid">Submit</button>
+    <button type="button" (click)="onReset(userForm)">Reset</button>
+  </form>
+
+  <!-- Debug -->
+  <pre>{{ user | json }}</pre>
+</div>
