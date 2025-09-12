@@ -1,4 +1,4 @@
-import { AfterRenderPhase, Component, ElementRef, OnInit, ViewChild, afterNextRender, afterRender } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, afterNextRender, afterRender } from '@angular/core';
 import Chart from 'chart.js/auto';
 
 @Component({
@@ -11,12 +11,12 @@ export class LifeCycleHookComponent implements OnInit{
   public chart: any;
   @ViewChild('MyStyle') MyStyle!:ElementRef;
   constructor() {
-    afterNextRender(()=>{
-      this.MyStyle.nativeElement.style.color = 'red'
-      this.createChart();
-      console.log('afterNextRender')
-    },{phase:AfterRenderPhase.Write})
-    afterRender(()=>{console.log(this.MyStyle.nativeElement.style.color)},{phase:AfterRenderPhase.Read})
+    afterNextRender({ write: () => {
+        this.MyStyle.nativeElement.style.color = 'red';
+        this.createChart();
+        console.log('afterNextRender');
+    } },)
+    afterRender({ read: () => { console.log(this.MyStyle.nativeElement.style.color); } },)
   }
 
   ngOnInit(): void {
