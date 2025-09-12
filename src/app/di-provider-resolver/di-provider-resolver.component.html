@@ -1,0 +1,48 @@
+<div class="container">
+  <h2>Angular Dependency Injection – Provider & Resolver Examples</h2>
+  <p>
+    Dependency Injection (DI) in Angular Angular has a built-in DI framework.
+    When you ask for a service in a component (via constructor), Angular looks
+    for a provider that tells it how to create or get that service.
+  </p>
+
+  <section>
+    <h3>Provider Types</h3>
+    <p><b>useClass:</b> Replace service with another class</p>
+    <pre><code>&#123; provide: UserService, useClass: MockUserService &#125;</code></pre>
+
+    <p><b>useValue:</b> Provide a constant value</p>
+    <pre><code>&#123; provide: 'API_URL', useValue: 'https://api.example.com' &#125;</code></pre>
+
+    <p><b>useExisting:</b> Alias one token to another</p>
+    <pre><code>&#123; provide: LoggerService, useExisting: ConsoleLoggerService &#125;</code></pre>
+
+    <p><b>useFactory:</b> Use factory function</p>
+    <pre><code>&#123; provide: 'API_URL', useFactory: apiFactory, deps: [EnvironmentService] &#125;</code></pre>
+  </section>
+
+  <section>
+    <h3>Resolution Modifiers</h3>
+    <p><b>&#64;Self()</b> – Resolve only in current injector</p>
+    <p><b>&#64;SkipSelf()</b> – Skip current, check parent injector</p>
+    <p><b>&#64;Optional()</b> – Return <code>null</code> if not found</p>
+    <p><b>&#64;Host()</b> – Stop resolution at host component’s boundary</p>
+  </section>
+
+  <section>
+    <h3>Real-time Example</h3>
+    <p>
+      Imagine you want different <b>LoggerService</b> in development and
+      production:
+    </p>
+    <pre><code>
+providers: [
+  &#123; provide: LoggerService, useClass: DevLoggerService &#125;
+]
+    </code></pre>
+    <p>
+      In <b>AppModule</b> you can configure with <b>useFactory</b> to switch
+      based on environment.
+    </p>
+  </section>
+</div>

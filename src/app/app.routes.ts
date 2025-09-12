@@ -14,6 +14,7 @@ import {
   canActivateChildGuard,
   canActivateGuard,
   canDeactivateGuard,
+  canLoadGuard,
   delayResolver,
   resolveGuard,
 } from './guard/auth-guard.guard';
@@ -53,4 +54,12 @@ export const routes: Routes = [
   { path: 'lifecycle', component: LifeCycleHookComponent },
   { path: 'register', component: RegisterFormComponent },
   { path: 'signup', component: UserFormComponent },
+  {
+    path: 'dependency-injection',
+    loadComponent: () =>
+      import('./di-provider-resolver/di-provider-resolver.component').then(
+        (m) => m.DiProviderResolverComponent
+      ),
+    canMatch: [canLoadGuard],
+  },
 ];

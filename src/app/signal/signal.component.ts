@@ -1,36 +1,48 @@
 import { Component, OnInit, computed, effect, signal } from '@angular/core';
+import { ModalComponent } from './app-modal/app-modal.component';
 
 @Component({
-    selector: 'app-signal',
-    templateUrl: './signal.component.html',
-    styleUrl: './signal.component.scss',
-    standalone: true
+  selector: 'app-signal',
+  templateUrl: './signal.component.html',
+  styleUrl: './signal.component.scss',
+  standalone: true,
+  imports: [ModalComponent],
 })
 export class SignalComponent implements OnInit {
-users:any = signal([]);
+  users: any = signal([]);
 
-constructor() {
-  this.users.set([{
-    name: 'vinoth',
-    gender: 'male'
-  }])
+  constructor() {
+    this.users.set([
+      {
+        name: 'vinoth',
+        gender: 'male',
+      },
+    ]);
 
-  effect(()=>{
-    localStorage.setItem('user list', JSON.stringify(this.users()));
-  })
-}
+    effect(() => {});
+  }
 
-ngOnInit(): void {
+  ngOnInit(): void {}
 
+  maleUsers = computed(() =>
+    this.users().filter((user: any) => user.gender == 'male')
+  );
 
-}
+  updateUser() {
+    this.users.update((userArr: any) => [
+      ...userArr,
+      { name: 'eren yeager', gender: 'male' },
+      { name: 'mikasa', gender: 'female' },
+    ]);
+  }
+  showModal = signal(false);
+  modalTitle = signal('Hello from Parent!');
 
-maleUsers = computed(() =>
-  this.users().filter((user:any)=>user.gender=='male')
-);
+  openModal() {
+    this.showModal.set(true);
+  }
 
-updateUser(){
-  this.users.update((userArr:any)=> [...userArr,{name:'rajiv',gender:'male'}, {name:'mikasa',gender:'female'}]);
-}
-
+  onModalClosed() {
+    this.showModal.set(false);
+  }
 }

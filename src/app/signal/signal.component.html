@@ -1,6 +1,17 @@
 <ul>
   @for (user of maleUsers(); track $index) {
-    <li>name: {{user.name}} | gender:{{user.gender}}</li>
+  <li>name: {{ user.name }} | gender:{{ user.gender }}</li>
   }
 </ul>
 <button (click)="updateUser()">Update User</button>
+
+<button (click)="openModal()">Open Modal</button>
+
+<app-modal
+  *ngIf="showModal()"
+  [(title)]="modalTitle"
+  (closed)="onModalClosed()"
+>
+</app-modal>
+
+<p><b>Parent sees title:</b> {{ modalTitle() }}</p>
