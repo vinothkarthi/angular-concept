@@ -1,12 +1,10 @@
 import { Component, OnInit, computed, effect, signal } from '@angular/core';
-import { ModalComponent } from './app-modal/app-modal.component';
 
 @Component({
   selector: 'app-signal',
   templateUrl: './signal.component.html',
   styleUrl: './signal.component.scss',
   standalone: true,
-  imports: [ModalComponent],
 })
 export class SignalComponent implements OnInit {
   users: any = signal([]);

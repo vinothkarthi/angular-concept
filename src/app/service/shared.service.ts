@@ -46,7 +46,7 @@ export class SharedService {
   }
 
   isAuthenticate() {
-    return false;
+    return true;
   }
 
   getApiUrl(): string {
