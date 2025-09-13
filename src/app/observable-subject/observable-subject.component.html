@@ -26,41 +26,43 @@
   <td>will support rxjs operators</td>
   <td>will not support rxjs operators</td>
 </tr>
-<br>
-  <button (click)="create()">Create</button> -
-  <button (click)="execute()">Execute</button> -
-  <button (click)="cancel()">Cancel</button>
-  <br><br>
-    <tr>
-      <th>Observable</th>
-      <th>Subject</th>
-    </tr>
-    <tr>
-      <td>We need separate observer to emit the data</td>
-      <td>We don't need separate observer to emit the data</td>
-    </tr>
-    <tr>
-      <td>Observable can't be consumers</td>
-      <td>Subject can be both consumers and providers</td>
-    </tr>
-    <tr>
-      <td>Observables are cold. It will emit the data only when there is a subscriber</td>
-      <td>Subjects are hot. It will emit the data even there is no subscriber</td>
-    </tr>
-    <tr>
-      <td>Unicast - The execution will not share among multiple subscribers</td>
-      <td>Multicast - The execution will share among multiple subscribers</td>
-    </tr>
-    <br>
-      <button (click)="getObservableData()">Observable</button> -
-      <button (click)="getSubjectData()">Subject</button>
-      <br>
-        {{observable1}} | {{observable2}} - {{subject1}} | {{subject2}}
-        <br><br>
-          <b>subject | ReplaySubject | BehaviorSubject</b>
-          <br><br>
-            <button (click)="emitData()">emit data</button> - <button (click)="getData()">subscribe</button>
-            @for (data of myData; track data) {
-              <p>{{data}}</p>
-            }
-            
+<br />
+<button (click)="create()">Create</button> -
+<button (click)="execute()">Execute</button> -
+<button (click)="cancel()">Cancel</button>
+<br /><br />
+<tr>
+  <th>Observable</th>
+  <th>Subject</th>
+</tr>
+<tr>
+  <td>We need separate observer to emit the data</td>
+  <td>We don't need separate observer to emit the data</td>
+</tr>
+<tr>
+  <td>Observable can't be consumers</td>
+  <td>Subject can be both consumers and providers</td>
+</tr>
+<tr>
+  <td>
+    Observables are cold. It will emit the data only when there is a subscriber
+  </td>
+  <td>Subjects are hot. It will emit the data even there is no subscriber</td>
+</tr>
+<tr>
+  <td>Unicast - The execution will not share among multiple subscribers</td>
+  <td>Multicast - The execution will share among multiple subscribers</td>
+</tr>
+<br />
+<button (click)="getObservableData()">Observable</button> -
+<button (click)="getSubjectData()">Subject</button>
+<br />
+{{ observable1 }} | {{ observable2 }} - {{ subject1 }} | {{ subject2 }}
+<br /><br />
+<b>subject | ReplaySubject | BehaviorSubject</b>
+<br /><br />
+<button (click)="emitData()">emit data</button> -
+<button (click)="getData()">subscribe</button>
+@for (data of myData; track $index) {
+<p>{{ data }}</p>
+}

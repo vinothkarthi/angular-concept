@@ -1,4 +1,14 @@
-<p #MyStyle style="color: blue;">BAR CHART</p>
+<p #MyStyle style="color: blue">BAR CHART</p>
 <div class="chart-container">
-  <canvas #MyChart  id="MyChart" >{{ chart }}</canvas>
+  <canvas #MyChart id="MyChart"></canvas>
 </div>
+1. afterRender() = every render cycle (like ngAfterViewChecked but for DOM).
+Runs after every DOM paint — if Angular changes the template again, it will run
+again. Good for: recalculating positions, measuring elements, syncing with
+animations.
+<br />
+2. afterNextRender() = once, after the next render cycle (like ngAfterViewInit
+but for DOM). Runs once, after the first DOM paint — if Angular changes the
+template again, it will NOT run again. Good for: one-time setup that needs the
+DOM, like initializing a third-party library.
+<br />
