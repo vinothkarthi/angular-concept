@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import {
   RouterModule,
   Routes,
@@ -23,9 +23,18 @@ import { LifeCycleHookComponent } from './life-cycle-hook/life-cycle-hook.compon
 import { UserComponent } from './user/user.component';
 import { RegisterFormComponent } from './forms/register-form/register-form.component';
 import { UserFormComponent } from './forms/user-form/user-form.component';
+import { SharedService } from './service/shared.service';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent, pathMatch: 'full' },
+  // { path: '', redirectTo: 'home', pathMatch: 'full' },
+  {
+    path: '',
+    redirectTo: () => {
+      const service = inject(SharedService);
+      return true ? 'home' : '**';
+    },
+    pathMatch: 'full',
+  },
   { path: 'home', component: HomeComponent, resolve: { delayResolver } },
   {
     path: 'user',
@@ -61,5 +70,13 @@ export const routes: Routes = [
         (m) => m.DiProviderResolverComponent
       ),
     canMatch: [canLoadGuard],
+  },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./not-found/not-found.component').then(
+        (m) => m.NotFoundComponent
+      ),
+    title: '404 - Not Found',
   },
 ];
