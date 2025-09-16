@@ -1,14 +1,81 @@
+<h3>Life cycle hooks</h3>
+<ol>
+  <li>
+    ngOnchanges() = when an "&#64;"Input() value changes (before ngOnInit on
+    first run). if there are no "&#64;"Input() properties, this method will not
+    be called. if the "&#64;"Input() is an object or array, this method will be
+    called only when the reference changes (not when a property inside the
+    object/array changes).
+    <b>Good for: reacting to input changes.</b>
+  </li>
+  <li>
+    ngOnInit() = once, after the first ngOnChanges(). "&#64;"viewChild and
+    "&#64;"ContentChild are set after this runs.
+    <b>Good for: component initialization, fetching initial data.</b>
+  </li>
+  <li>
+    ngDoCheck() = every change detection cycle (after ngOnChanges and ngOnInit).
+    Runs very frequently, so avoid heavy work here.
+    <b>Good for: custom change detection.</b>
+  </li>
+  <li>
+    ngAfterContentInit() = once, after projecting external content into the
+    component (after the first ngDoCheck). "&#64;"ContentChild,
+    "&#64;"contentChildren are set just before this runs. It will run only once,
+    after that if content projection changes, it will not run again. It is only
+    component hook, not directive hook.
+    <b>Good for: initializing things that depend on projected content.</b>
+  </li>
+  <li>
+    ngAfterContentChecked() = every change detection cycle after
+    ngAfterContentInit. Runs very frequently, so avoid heavy work here.
+    "&#64;"ContentChild, "&#64;"contentChildren changes are update just before
+    this runs. It is only component hook, not directive hook.
+    <b>Good for: reacting to projected content changes.</b>
+  </li>
+  <li>
+    ngAfterViewInit() = once, after the component's view (and child component
+    and directive views) are initialized (after the first
+    ngAfterContentChecked). "&#64;"ViewChild, "&#64;"viewChildren are set just
+    before this runs. It will run only once, after that if the view changes, it
+    will not run again. It is only component hook, not directive hook.
+    <b>Good for: initializing things that depend on the component's view.</b>
+  </li>
+  <li>
+    ngAfterViewChecked() = every change detection cycle after ngAfterViewInit.
+    Runs very frequently, so avoid heavy work here. "&#64;"ViewChild,
+    "&#64;"viewChildren changes are update just before this runs. It is only
+    component hook, not directive hook.
+    <b>Good for: reacting to view changes.</b>
+  </li>
+  <li>
+    ngOnDestroy() = once, just before the component/directive is destroyed.
+    <b
+      >Good for: cleanup like unsubscribing from observables, detaching event
+      handlers to avoid memory leaks.</b
+    >
+  </li>
+  <li>
+    afterRender() = every render cycle (like ngAfterViewChecked but for DOM).
+    Runs after every DOM paint — if Angular changes the template again, it will
+    run again.
+    <b
+      >Good for: recalculating positions, measuring elements, syncing with
+      animations.</b
+    >
+  </li>
+  <li>
+    afterNextRender() = once, after the next render cycle (like ngAfterViewInit
+    but for DOM). Runs once, after the first DOM paint — if Angular changes the
+    template again, it will NOT run again.
+    <b
+      >Good for: one-time setup that needs the DOM, like initializing a
+      third-party library.</b
+    >
+  </li>
+</ol>
+<br />
 <p #MyStyle style="color: blue">BAR CHART</p>
 <div class="chart-container">
   <canvas #MyChart id="MyChart"></canvas>
 </div>
-1. afterRender() = every render cycle (like ngAfterViewChecked but for DOM).
-Runs after every DOM paint — if Angular changes the template again, it will run
-again. Good for: recalculating positions, measuring elements, syncing with
-animations.
-<br />
-2. afterNextRender() = once, after the next render cycle (like ngAfterViewInit
-but for DOM). Runs once, after the first DOM paint — if Angular changes the
-template again, it will NOT run again. Good for: one-time setup that needs the
-DOM, like initializing a third-party library.
-<br />

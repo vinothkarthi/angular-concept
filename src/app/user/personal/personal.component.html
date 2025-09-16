@@ -1,30 +1,25 @@
-
 <button (click)="getUserPersonal()">Get UserPersonal</button>
 <button (click)="navigateTo('/home')">Home</button>
 
-@defer (on timer(3s)) {
-@if (personalDetail$ | async; as personalDetails) {
-  <table>
-    <tr>
+@defer (on timer(3s)) { @if (personalDetail$ | async; as personalDetails) {
+<table>
+  <tr>
     <th>user name</th>
     <th>user email</th>
-    </tr>
-    @for(user of personalDetails;track user.name;let idx = $index){
-    <tr>
-      <td>{{user.name}}</td>
-    <td>{{user.email}}</td>
-    </tr>
+  </tr>
+  @for(user of personalDetails;track user.name;let idx = $index){
+  <tr>
+    <td>{{ user.name | limitto : 10 }}</td>
+    <td>{{ user.email | uppercase }}</td>
+  </tr>
   }@empty {
-    <tr>
-      No Users
-    </tr>
+  <tr>
+    No Users
+  </tr>
   }
-  </table>
-}
-@else {
-  <p>no users</p>
-}
-}
-@placeholder {
-  <p>User Section Loading....</p>
+</table>
+} @else {
+<p>no users</p>
+} } @placeholder {
+<p>User Section Loading....</p>
 }

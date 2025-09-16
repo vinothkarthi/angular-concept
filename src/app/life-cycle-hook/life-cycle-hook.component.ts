@@ -22,7 +22,7 @@ export class LifeCycleHookComponent {
   @ViewChild('MyChart') MyChart!: ElementRef<HTMLCanvasElement>;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    // Runs after *every* render cycle
+    // Runs after *every* render cycle like ngAfterViewChecked
     afterRender({
       read: () => {
         console.log(
@@ -34,7 +34,7 @@ export class LifeCycleHookComponent {
         console.log('afterRender → write');
       },
     });
-    // Runs only after the *next* render (once)
+    // Runs only after the *next* render (once) like ngAfterViewInit
     afterNextRender({
       write: async () => {
         if (isPlatformBrowser(this.platformId)) {
