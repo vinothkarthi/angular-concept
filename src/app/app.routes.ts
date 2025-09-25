@@ -35,7 +35,12 @@ export const routes: Routes = [
     },
     pathMatch: 'full',
   },
-  { path: 'home', component: HomeComponent, resolve: { delayResolver } },
+  {
+    path: 'home',
+    component: HomeComponent,
+    resolve: { delayResolver },
+    data: { title: 'Home' },
+  },
   {
     path: 'user',
     component: UserComponent,
@@ -58,7 +63,11 @@ export const routes: Routes = [
     component: ObservableSubjectComponent,
     canActivate: [canActivateGuard],
   },
-  { path: 'rxjs', component: RxjsJoinOperatorsComponent },
+  {
+    path: 'rxjs',
+    component: RxjsJoinOperatorsComponent,
+    data: { title: 'Rxjs' },
+  },
   { path: 'signal', component: SignalComponent },
   { path: 'lifecycle', component: LifeCycleHookComponent },
   { path: 'register', component: RegisterFormComponent },

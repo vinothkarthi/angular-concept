@@ -13,8 +13,9 @@ import { personalDetail, posts } from '../interface/user.interface';
 import { ConfigService } from './config.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root', //tree-shakable provider means if not used anywhere, it will be removed during build
 })
+//providers:[] non-tree-shakable provider, if not used anywhere, it will still be part of the build
 export class SharedService {
   baseURL: string = 'https://jsonplaceholder.typicode.com';
   obs$: Observable<any> = of(1, 2, 3);
