@@ -8,6 +8,7 @@ import {
   FormArray,
   ValidationErrors,
   AbstractControl,
+  FormBuilder,
 } from '@angular/forms';
 import {
   minAgeValidator,
@@ -23,24 +24,47 @@ import {
   styleUrl: './user-form.component.scss',
 })
 export class UserFormComponent implements OnInit {
-  userForm = new FormGroup({
-    name: new FormControl(
-      '',
-      [Validators.required, noSpacesValidator(), Validators.minLength(3)],
-      [usernameTakenValidator()]
-    ),
-    age: new FormControl('', [Validators.required, minAgeValidator(18)]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    gender: new FormControl('male'),
-    contact: new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      phone: new FormControl(''),
-    }),
-    hobbies: new FormArray([
-      new FormControl('Reading'),
-      new FormControl('Traveling'),
-    ]),
-  });
+  userForm: FormGroup<any>;
+
+  constructor(private fb: FormBuilder) {
+    this.userForm = this.fb.group({
+      name: [
+        '',
+        [Validators.required, noSpacesValidator(), Validators.minLength(3)],
+        [usernameTakenValidator()],
+      ],
+      age: ['', [Validators.required, minAgeValidator(18)]],
+      email: ['', [Validators.required, Validators.email]],
+      gender: ['male'],
+      contact: this.fb.group({
+        email: ['', [Validators.required, Validators.email]],
+        phone: [''],
+      }),
+      hobbies: this.fb.array([
+        this.fb.control('Reading'),
+        this.fb.control('Traveling'),
+      ]),
+    });
+  }
+
+  // userForm = new FormGroup({
+  //   name: new FormControl(
+  //     '',
+  //     [Validators.required, noSpacesValidator(), Validators.minLength(3)],
+  //     [usernameTakenValidator()]
+  //   ),
+  //   age: new FormControl('', [Validators.required, minAgeValidator(18)]),
+  //   email: new FormControl('', [Validators.required, Validators.email]),
+  //   gender: new FormControl('male'),
+  //   contact: new FormGroup({
+  //     email: new FormControl('', [Validators.required, Validators.email]),
+  //     phone: new FormControl(''),
+  //   }),
+  //   hobbies: new FormArray([
+  //     new FormControl('Reading'),
+  //     new FormControl('Traveling'),
+  //   ]),
+  // });
 
   ngOnInit() {
     // Watch single control
@@ -59,7 +83,8 @@ export class UserFormComponent implements OnInit {
   }
 
   addHobby() {
-    this.hobbies.push(new FormControl(''));
+    this.hobbies.push(this.fb.control(''));
+    //this.hobbies.push(new FormControl(''));
   }
 
   onSubmit() {
