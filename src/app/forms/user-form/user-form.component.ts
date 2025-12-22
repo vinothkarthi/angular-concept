@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ANGULAR_FORMS } from '../../shared/angular-forms';
 import {
@@ -15,17 +22,21 @@ import {
   noSpacesValidator,
   usernameTakenValidator,
 } from '../../validators/custom-validators';
+import { CustominputComponent } from '../custominput/custominput.component';
 
 @Component({
   selector: 'app-user-form',
   standalone: true,
-  imports: [CommonModule, ANGULAR_FORMS],
+  imports: [CommonModule, ANGULAR_FORMS, CustominputComponent],
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.scss',
 })
-export class UserFormComponent implements OnInit {
+export class UserFormComponent implements OnInit, AfterViewInit {
   userForm: FormGroup<any>;
 
+  @ViewChild('ageFormControlTemplate') ageFormControl!: TemplateRef<any>;
+  @ViewChild('ageFormControlContainer', { read: ViewContainerRef })
+  ageFormControlContainer!: ViewContainerRef;
   constructor(private fb: FormBuilder) {
     this.userForm = this.fb.group({
       name: [
@@ -78,6 +89,12 @@ export class UserFormComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void {
+    this.ageFormControlContainer?.createEmbeddedView(this.ageFormControl, {
+      placeholder: 'Enter Age',
+    });
+  }
+
   get hobbies() {
     return this.userForm.get('hobbies') as FormArray;
   }
@@ -90,12 +107,12 @@ export class UserFormComponent implements OnInit {
   onSubmit() {
     console.log(this.userForm);
     // Option 1: Clear everything
-    this.userForm.reset();
+    //this.userForm.reset();
 
     // Option 2: Reset with default values
-    this.userForm.reset({
-      name: 'Default Name',
-      email: 'default@example.com',
-    });
+    // this.userForm.reset({
+    //   name: 'Default Name',
+    //   email: 'default@example.com',
+    // });
   }
 }

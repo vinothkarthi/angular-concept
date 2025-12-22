@@ -30,7 +30,6 @@ export const routes: Routes = [
   {
     path: '',
     redirectTo: () => {
-      const service = inject(SharedService);
       return true ? 'home' : '**';
     },
     pathMatch: 'full',

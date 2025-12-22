@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import {
   BehaviorSubject,
   Observable,
@@ -25,19 +25,22 @@ export class SharedService {
   behObs$: Observable<any> = this.beh.asObservable();
   rep: ReplaySubject<any> = new ReplaySubject(2);
   repObs$: Observable<any> = this.rep.asObservable();
+  constructor(private http: HttpClient, private injector: Injector) {}
 
-  constructor(private http: HttpClient, private configService: ConfigService) {}
+  private get config(): ConfigService {
+    return this.injector.get(ConfigService);
+  }
 
-  ngOnInit() {
-    console.log(this.getApiUrl());
+  private getApiUrl(): string {
+    return this.config.setting?.apiBaseUrl ?? this.baseURL;
   }
 
   getUsers() {
-    return this.http.get(`${this.baseURL}/users`);
+    return this.http.get(`${this.getApiUrl()}/users`);
   }
 
   getPosts() {
-    return this.http.get(`${this.baseURL}/posts`).pipe(delay(10000));
+    return this.http.get(`${this.getApiUrl()}/posts`);
   }
 
   emitData() {
@@ -48,9 +51,5 @@ export class SharedService {
 
   isAuthenticate() {
     return true;
-  }
-
-  getApiUrl(): string {
-    return this.configService.setting?.apiBaseUrl ?? 'http://fallback.local';
   }
 }

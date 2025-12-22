@@ -1,0 +1,15 @@
+<input
+  [type]="type"
+  [placeholder]="placeholder"
+  [value]="value"
+  (input)="onInput($event)"
+  (blur)="onTouched()"
+/>
+
+<!-- <div *ngIf="ngControl.errors?.['minlength'] && ngControl.touched">
+  Username is required (min 3 chars)
+</div>
+
+<div *ngIf="ngControl.hasError('noSpaces')">Username cannot contain spaces</div>
+
+<div *ngIf="ngControl.hasError('usernameTaken')">Username already taken</div> -->

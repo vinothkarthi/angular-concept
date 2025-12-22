@@ -1,8 +1,14 @@
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
   <!-- Name -->
   <label for="name">Name:</label>
-  <input id="name" type="text" formControlName="name" placeholder="Name" />
+  <!-- <input id="name" type="text" formControlName="name" placeholder="Name" /> -->
 
+  <app-custominput
+    [type]="'text'"
+    [placeholder]="'Name'"
+    id="name"
+    formControlName="name"
+  ></app-custominput>
   <div
     *ngIf="userForm.get('name')?.errors?.['minlength'] && userForm.get('name')?.touched"
   >
@@ -16,12 +22,18 @@
   <div *ngIf="userForm.get('name')?.hasError('usernameTaken')">
     Username already taken
   </div>
-
   <br />
 
   <!-- Age -->
   <label for="age">Age:</label>
-  <input id="age" type="number" formControlName="age" placeholder="Age" />
+  <ng-template #ageFormControlTemplate let-placeholder="placeholder">
+    <input
+      id="age"
+      type="number"
+      formControlName="age"
+      [placeholder]="placeholder"
+  /></ng-template>
+  <ng-container #ageFormControlContainer></ng-container>
 
   <div *ngIf="userForm.get('age')?.hasError('minAge')">
     Must be at least
@@ -32,12 +44,23 @@
   <br />
 
   <!-- Email -->
-  <label for="email">Email:</label>
-  <input id="email" type="email" formControlName="email" placeholder="email" />
+  <ng-template #emailTemplate>
+    <label for="email">Email:</label>
+    <input
+      id="email"
+      type="email"
+      formControlName="email"
+      placeholder="Enter Email"
+    />
 
-  <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
-    Enter a valid email
-  </div>
+    <div
+      *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched"
+    >
+      Enter a valid email
+    </div>
+  </ng-template>
+
+  <ng-container *ngTemplateOutlet="emailTemplate"></ng-container>
 
   <br />
 
