@@ -9,7 +9,7 @@ import {
   delay,
   of,
 } from 'rxjs';
-import { personalDetail, posts } from '../interface/user.interface';
+import { personalDetail, posts, User } from '../interface/user.interface';
 import { ConfigService } from './config.service';
 
 @Injectable({
@@ -51,5 +51,25 @@ export class SharedService {
 
   isAuthenticate() {
     return true;
+  }
+
+  getUsersDetails(): Observable<User[]> {
+    return this.http.get<User[]>('http://localhost:3000/users');
+  }
+
+  addUser(user: User): Observable<User> {
+    return this.http.post<User>('http://localhost:3000/users', user);
+  }
+
+  getUser(id: number): Observable<User> {
+    return this.http.get<User>(`http://localhost:3000/users/${id}`);
+  }
+
+  updateUser(id: number, user: User): Observable<User> {
+    return this.http.patch<User>(`http://localhost:3000/users/${id}`, user);
+  }
+
+  deleteUser(id: number): Observable<void> {
+    return this.http.delete<void>(`http://localhost:3000/users/${id}`);
   }
 }

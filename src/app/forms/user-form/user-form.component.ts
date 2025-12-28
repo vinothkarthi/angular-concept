@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild,
@@ -23,6 +24,9 @@ import {
   usernameTakenValidator,
 } from '../../validators/custom-validators';
 import { CustominputComponent } from '../custominput/custominput.component';
+import { SharedService } from '../../service/shared.service';
+import { map, Observable, Subject, take, takeUntil, zip } from 'rxjs';
+import { pickUser } from '../../utils/mapUser';
 
 @Component({
   selector: 'app-user-form',
@@ -31,30 +35,40 @@ import { CustominputComponent } from '../custominput/custominput.component';
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.scss',
 })
-export class UserFormComponent implements OnInit, AfterViewInit {
+export class UserFormComponent implements OnInit, AfterViewInit, OnDestroy {
   userForm: FormGroup<any>;
 
   @ViewChild('ageFormControlTemplate') ageFormControl!: TemplateRef<any>;
   @ViewChild('ageFormControlContainer', { read: ViewContainerRef })
   ageFormControlContainer!: ViewContainerRef;
-  constructor(private fb: FormBuilder) {
+  unSubscribe: Subject<any> = new Subject<any>();
+  users: any[] = [];
+  editFlag: boolean = false;
+  editUserId: number | null = null;
+  constructor(private fb: FormBuilder, private sharedService: SharedService) {
     this.userForm = this.fb.group({
-      name: [
+      name: ['', [Validators.required]],
+      username: [
         '',
         [Validators.required, noSpacesValidator(), Validators.minLength(3)],
         [usernameTakenValidator()],
       ],
-      age: ['', [Validators.required, minAgeValidator(18)]],
+      // age: ['', [Validators.required, minAgeValidator(18)]],
       email: ['', [Validators.required, Validators.email]],
-      gender: ['male'],
-      contact: this.fb.group({
-        email: ['', [Validators.required, Validators.email]],
-        phone: [''],
+      address: this.fb.group({
+        street: [''],
+        city: [''],
+        zipcode: [''],
       }),
-      hobbies: this.fb.array([
-        this.fb.control('Reading'),
-        this.fb.control('Traveling'),
-      ]),
+      // gender: ['male'],
+      // contact: this.fb.group({
+      //   email: ['', [Validators.required, Validators.email]],
+      //   phone: [''],
+      // }),
+      // hobbies: this.fb.array([
+      //   this.fb.control('Reading'),
+      //   this.fb.control('Traveling'),
+      // ]),
     });
   }
 
@@ -87,12 +101,42 @@ export class UserFormComponent implements OnInit, AfterViewInit {
     this.userForm.valueChanges.subscribe((formValue) => {
       // console.log('Form changed:', formValue);
     });
+
+    this.sharedService
+      .getUsersDetails()
+      .pipe(
+        takeUntil(this.unSubscribe),
+        map((data) =>
+          data.map(
+            ({
+              id,
+              name,
+              username,
+              email,
+              address: { street, city, zipcode },
+            }) => ({
+              id,
+              name,
+              username,
+              email,
+              address: {
+                street,
+                city,
+                zipcode,
+              },
+            })
+          )
+        )
+      )
+      .subscribe((data) => {
+        this.users = data;
+      });
   }
 
   ngAfterViewInit(): void {
-    this.ageFormControlContainer?.createEmbeddedView(this.ageFormControl, {
-      placeholder: 'Enter Age',
-    });
+    // this.ageFormControlContainer?.createEmbeddedView(this.ageFormControl, {
+    //   placeholder: 'Enter Age',
+    // });
   }
 
   get hobbies() {
@@ -105,14 +149,91 @@ export class UserFormComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    console.log(this.userForm);
-    // Option 1: Clear everything
-    //this.userForm.reset();
+    if (this.userForm.invalid) return;
 
-    // Option 2: Reset with default values
-    // this.userForm.reset({
-    //   name: 'Default Name',
-    //   email: 'default@example.com',
-    // });
+    this.editFlag ? this.updateUser() : this.addUser();
+  }
+
+  addUser() {
+    if (this.userForm.invalid) return;
+    // const id = +this.users[this.users.length - 1].id + 1;
+    // const newUser = { id, ...this.userForm.value };
+    this.sharedService
+      .addUser(this.userForm.value)
+      .pipe(takeUntil(this.unSubscribe))
+      .subscribe({
+        next: (res) => {
+          this.users = [...this.users, res];
+        },
+        error: (err) => {
+          console.error('Error adding user:', err);
+        },
+      });
+    this.userForm.reset();
+  }
+
+  updateUser() {
+    if (this.editUserId === null) return;
+    const index = this.users.findIndex((user) => user.id == this.editUserId);
+    if (index !== -1) {
+      this.sharedService
+        .updateUser(this.editUserId, this.userForm.value)
+        .pipe(takeUntil(this.unSubscribe), map(pickUser))
+        .subscribe({
+          next: (res) => {
+            this.users[index] = res;
+          },
+        });
+      // this.users[index] = {
+      //   id: this.editUserId,
+      //   ...this.userForm.value,
+      // };
+    }
+    this.cancelEdit();
+  }
+
+  editUser(id: number) {
+    this.editFlag = true;
+    this.editUserId = id;
+    this.sharedService
+      .getUser(id)
+      .pipe(takeUntil(this.unSubscribe), map(pickUser))
+      .subscribe({
+        next: (res) => {
+          this.userForm.patchValue(JSON.parse(JSON.stringify(res)));
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+  }
+
+  deleteUser(id: number) {
+    this.sharedService
+      .deleteUser(id)
+      .pipe(takeUntil(this.unSubscribe))
+      .subscribe({
+        next: (res) => {
+          this.users = this.users.filter((user) => user.id !== id);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+  }
+
+  cancelEdit() {
+    this.editFlag = false;
+    this.editUserId = null;
+    this.userForm.reset();
+  }
+
+  trackByUserId(index: number, user: any) {
+    return user.id;
+  }
+
+  ngOnDestroy(): void {
+    this.unSubscribe.next(null);
+    this.unSubscribe.complete();
   }
 }
