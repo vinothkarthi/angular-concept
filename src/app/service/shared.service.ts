@@ -72,4 +72,8 @@ export class SharedService {
   deleteUser(id: number): Observable<void> {
     return this.http.delete<void>(`http://localhost:3000/users/${id}`);
   }
+
+  searchUsers(term: string): Observable<User[]> {
+    return this.http.get<User[]>(`http://localhost:3000/users?q=${term}`);
+  }
 }

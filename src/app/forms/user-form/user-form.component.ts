@@ -25,7 +25,18 @@ import {
 } from '../../validators/custom-validators';
 import { CustominputComponent } from '../custominput/custominput.component';
 import { SharedService } from '../../service/shared.service';
-import { map, Observable, Subject, take, takeUntil, zip } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  Observable,
+  Subject,
+  switchMap,
+  take,
+  takeUntil,
+  zip,
+} from 'rxjs';
 import { pickUser } from '../../utils/mapUser';
 
 @Component({
@@ -45,6 +56,9 @@ export class UserFormComponent implements OnInit, AfterViewInit, OnDestroy {
   users: any[] = [];
   editFlag: boolean = false;
   editUserId: number | null = null;
+  searchTerm: string = '';
+  private search$: Subject<string> = new Subject<string>();
+  filteredUsers$!: Observable<any[]>;
   constructor(private fb: FormBuilder, private sharedService: SharedService) {
     this.userForm = this.fb.group({
       name: ['', [Validators.required]],
@@ -102,6 +116,17 @@ export class UserFormComponent implements OnInit, AfterViewInit, OnDestroy {
       // console.log('Form changed:', formValue);
     });
 
+    this.getAllUsers();
+    // Search functionality
+    this.filteredUsers$ = this.search$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      filter((term) => typeof term === 'string' && term.length >= 3),
+      switchMap((term) => this.sharedService.searchUsers(term))
+    );
+  }
+
+  getAllUsers() {
     this.sharedService
       .getUsersDetails()
       .pipe(
@@ -200,7 +225,9 @@ export class UserFormComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.unSubscribe), map(pickUser))
       .subscribe({
         next: (res) => {
-          this.userForm.patchValue(JSON.parse(JSON.stringify(res)));
+          this.userForm.patchValue(JSON.parse(JSON.stringify(res)), {
+            emitEvent: false,
+          });
         },
         error: (err) => {
           console.log(err);
@@ -230,6 +257,10 @@ export class UserFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   trackByUserId(index: number, user: any) {
     return user.id;
+  }
+  onSearch(term: string) {
+    this.searchTerm = term.toLowerCase();
+    this.search$.next(this.searchTerm);
   }
 
   ngOnDestroy(): void {

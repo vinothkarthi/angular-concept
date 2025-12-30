@@ -1,3 +1,15 @@
+<!-- search -->
+<input
+  type="text"
+  placeholder="Search by name or username"
+  [(ngModel)]="searchTerm"
+  (ngModelChange)="onSearch($event)"
+/>
+<ul *ngIf="filteredUsers$ | async as filteredUsers">
+  <li *ngFor="let user of filteredUsers" (click)="editUser(user.id)">
+    {{ user.name }} ({{ user.username }})
+  </li>
+</ul>
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
   <!-- Name -->
   <label for="name">Name:</label>
