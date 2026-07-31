@@ -1,11 +1,5 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import {
-  APP_INITIALIZER,
-  ApplicationConfig,
-  importProvidersFrom,
-  isDevMode,
-  mergeApplicationConfig,
-} from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, isDevMode, mergeApplicationConfig, inject, provideAppInitializer } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -43,12 +37,10 @@ const extraConfig: ApplicationConfig = {
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
     // App initializer
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializerFactory,
-      deps: [ConfigService],
-      multi: true,
-    },
+    provideAppInitializer(() => {
+        const initializerFn = (appInitializerFactory)(inject(ConfigService));
+        return initializerFn();
+      }),
   ],
 };
 

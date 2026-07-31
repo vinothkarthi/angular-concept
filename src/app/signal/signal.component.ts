@@ -3,11 +3,10 @@ import { ModalComponent } from './modal/modal.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-signal',
-  templateUrl: './signal.component.html',
-  styleUrl: './signal.component.scss',
-  standalone: true,
-  imports: [CommonModule, ModalComponent],
+    selector: 'app-signal',
+    templateUrl: './signal.component.html',
+    styleUrl: './signal.component.scss',
+    imports: [CommonModule, ModalComponent]
 })
 export class SignalComponent implements OnInit {
   users: any = signal([]);

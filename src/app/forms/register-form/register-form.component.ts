@@ -4,11 +4,10 @@ import { NgForm } from '@angular/forms';
 import { ANGULAR_FORMS } from '../../shared/angular-forms';
 
 @Component({
-  selector: 'app-register-form',
-  standalone: true,
-  imports: [CommonModule,ANGULAR_FORMS],
-  templateUrl: './register-form.component.html',
-  styleUrl: './register-form.component.scss'
+    selector: 'app-register-form',
+    imports: [CommonModule, ANGULAR_FORMS],
+    templateUrl: './register-form.component.html',
+    styleUrl: './register-form.component.scss'
 })
 export class RegisterFormComponent {
 

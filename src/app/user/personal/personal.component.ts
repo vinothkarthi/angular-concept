@@ -9,11 +9,10 @@ import { AsyncPipe, UpperCasePipe, TitleCasePipe } from '@angular/common';
 import { LimittoPipe } from '../../pipes/limitto.pipe';
 
 @Component({
-  selector: 'app-personal',
-  templateUrl: './personal.component.html',
-  styleUrl: './personal.component.scss',
-  standalone: true,
-  imports: [AsyncPipe, UpperCasePipe, LimittoPipe],
+    selector: 'app-personal',
+    templateUrl: './personal.component.html',
+    styleUrl: './personal.component.scss',
+    imports: [AsyncPipe, UpperCasePipe, LimittoPipe]
 })
 export class PersonalComponent implements OnInit, OnDestroy {
   personalDetail$!: Observable<personalDetail[]>;

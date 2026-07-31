@@ -40,11 +40,10 @@ import {
 import { pickUser } from '../../utils/mapUser';
 
 @Component({
-  selector: 'app-user-form',
-  standalone: true,
-  imports: [CommonModule, ANGULAR_FORMS, CustominputComponent],
-  templateUrl: './user-form.component.html',
-  styleUrl: './user-form.component.scss',
+    selector: 'app-user-form',
+    imports: [CommonModule, ANGULAR_FORMS, CustominputComponent],
+    templateUrl: './user-form.component.html',
+    styleUrl: './user-form.component.scss'
 })
 export class UserFormComponent implements OnInit, AfterViewInit, OnDestroy {
   userForm: FormGroup<any>;

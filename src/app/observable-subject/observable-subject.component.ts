@@ -10,11 +10,10 @@ import {
 import { SharedService } from '../service/shared.service';
 
 @Component({
-  selector: 'app-observable-subject',
-  templateUrl: './observable-subject.component.html',
-  styleUrl: './observable-subject.component.scss',
-  standalone: true,
-  imports: [],
+    selector: 'app-observable-subject',
+    templateUrl: './observable-subject.component.html',
+    styleUrl: './observable-subject.component.scss',
+    imports: []
 })
 export class ObservableSubjectComponent implements OnInit {
   data: any;

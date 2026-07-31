@@ -11,11 +11,10 @@ import { SharedService } from '../../service/shared.service';
 import { JsonPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-post',
-  templateUrl: './post.component.html',
-  styleUrl: './post.component.scss',
-  standalone: true,
-  imports: [JsonPipe],
+    selector: 'app-post',
+    templateUrl: './post.component.html',
+    styleUrl: './post.component.scss',
+    imports: [JsonPipe]
 })
 export class PostComponent implements OnInit {
   posts: any = [];
