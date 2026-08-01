@@ -4,191 +4,206 @@
   placeholder="Search by name or username"
   [(ngModel)]="searchTerm"
   (ngModelChange)="onSearch($event)"
-/>
-<ul *ngIf="filteredUsers$ | async as filteredUsers">
-  <li *ngFor="let user of filteredUsers" (click)="editUser(user.id)">
-    {{ user.name }} ({{ user.username }})
-  </li>
-</ul>
-<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-  <!-- Name -->
-  <label for="name">Name:</label>
-  <input id="name" type="text" formControlName="name" placeholder="Name" />
-  <div
-    *ngIf="
+  />
+  @if (filteredUsers$ | async; as filteredUsers) {
+    <ul>
+      @for (user of filteredUsers; track user) {
+        <li (click)="editUser(user.id)">
+          {{ user.name }} ({{ user.username }})
+        </li>
+      }
+    </ul>
+  }
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <!-- Name -->
+    <label for="name">Name:</label>
+    <input id="name" type="text" formControlName="name" placeholder="Name" />
+    @if (
       userForm.get('name')?.hasError('required') &&
       userForm.get('name')?.touched
-    "
-  >
-    Name is required
-  </div>
-  <br />
-  <!-- User Name -->
-  <label for="username">User Name:</label>
+      ) {
+      <div
+        >
+        Name is required
+      </div>
+    }
+    <br />
+    <!-- User Name -->
+    <label for="username">User Name:</label>
 
-  <app-custominput
-    [type]="'text'"
-    [placeholder]="'User Name'"
-    id="username"
-    formControlName="username"
-  ></app-custominput>
-  <div
-    *ngIf="userForm.get('username')?.errors?.['minlength'] && userForm.get('username')?.touched"
-  >
-    Username is required (min 3 chars)
-  </div>
+    <app-custominput
+      [type]="'text'"
+      [placeholder]="'User Name'"
+      id="username"
+      formControlName="username"
+    ></app-custominput>
+    @if (userForm.get('username')?.errors?.['minlength'] && userForm.get('username')?.touched) {
+      <div
+        >
+        Username is required (min 3 chars)
+      </div>
+    }
 
-  <div *ngIf="userForm.get('username')?.hasError('noSpaces')">
-    Username cannot contain spaces
-  </div>
+    @if (userForm.get('username')?.hasError('noSpaces')) {
+      <div>
+        Username cannot contain spaces
+      </div>
+    }
 
-  <div *ngIf="userForm.get('username')?.hasError('usernameTaken')">
-    Username already taken
-  </div>
-  <br />
+    @if (userForm.get('username')?.hasError('usernameTaken')) {
+      <div>
+        Username already taken
+      </div>
+    }
+    <br />
 
-  <!-- Age -->
-  <!-- <label for="age">Age:</label>
-  <ng-template #ageFormControlTemplate let-placeholder="placeholder">
-    <input
-      id="age"
-      type="number"
-      formControlName="age"
-      [placeholder]="placeholder"
-  /></ng-template>
-  <ng-container #ageFormControlContainer></ng-container>
-
-  <div *ngIf="userForm.get('age')?.hasError('minAge')">
-    Must be at least
-    {{ userForm.get("age")?.getError("minAge")?.required }}
-    (you entered {{ userForm.get("age")?.getError("minAge")?.actual }})
-  </div>
-
-  <br /> -->
-
-  <!-- Email -->
-  <ng-template #emailTemplate>
-    <label for="email">Email:</label>
-    <input
-      id="email"
-      type="email"
-      formControlName="email"
-      placeholder="Enter Email"
-    />
-
-    <div
-      *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched"
-    >
-      Enter a valid email
-    </div>
-  </ng-template>
-
-  <ng-container *ngTemplateOutlet="emailTemplate"></ng-container>
-
-  <br />
-
-  <fieldset formGroupName="address">
-    <legend>Address:</legend>
-
-    <label for="street">Street:</label>
-    <input id="street" formControlName="street" placeholder="street" />
-
-    <label for="city">City:</label>
-    <input id="city" formControlName="city" placeholder="city" />
-
-    <label for="zip">Zip Code:</label>
-    <input id="zip" formControlName="zipcode" placeholder="zip code" />
-  </fieldset>
-
-  <!-- Contact Info -->
-  <!-- <fieldset formGroupName="contact">
-    <legend>Contact Info:</legend>
-
-    <label for="secondaryEmail">Secondary Email:</label>
-    <input
-      id="secondaryEmail"
-      formControlName="email"
-      placeholder="secondary email"
-    />
-
-    <label for="phone">Phone:</label>
-    <input id="phone" formControlName="phone" placeholder="phone" />
-  </fieldset>
-
-  <br /> -->
-
-  <!-- Gender -->
-  <!-- <fieldset>
-    <legend>Gender:</legend>
-
-    <label for="genderMale">
+    <!-- Age -->
+    <!-- <label for="age">Age:</label>
+    <ng-template #ageFormControlTemplate let-placeholder="placeholder">
       <input
-        id="genderMale"
-        type="radio"
-        formControlName="gender"
-        value="male"
-      />
-      Male
-    </label>
+        id="age"
+        type="number"
+        formControlName="age"
+        [placeholder]="placeholder"
+      /></ng-template>
+      <ng-container #ageFormControlContainer></ng-container>
 
-    <label for="genderFemale">
-      <input
-        id="genderFemale"
-        type="radio"
-        formControlName="gender"
-        value="female"
-      />
-      Female
-    </label>
-  </fieldset>
+      <div *ngIf="userForm.get('age')?.hasError('minAge')">
+        Must be at least
+        {{ userForm.get("age")?.getError("minAge")?.required }}
+        (you entered {{ userForm.get("age")?.getError("minAge")?.actual }})
+      </div>
 
-  <br /> -->
+      <br /> -->
 
-  <!-- Hobbies -->
-  <!-- <fieldset formArrayName="hobbies">
-    <legend>Hobbies:</legend>
+      <!-- Email -->
+      <ng-template #emailTemplate>
+        <label for="email">Email:</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Enter Email"
+          />
 
-    <div *ngFor="let hobby of hobbies.controls; let i = index">
-      <label [for]="'hobby-' + i">Hobby {{ i + 1 }}</label>
-      <input [id]="'hobby-' + i" [formControlName]="i" />
-    </div>
+          @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
+            <div
+              >
+              Enter a valid email
+            </div>
+          }
+        </ng-template>
 
-    <button type="button" (click)="addHobby()">+ Add Hobby</button>
-  </fieldset> -->
+        <ng-container *ngTemplateOutlet="emailTemplate"></ng-container>
 
-  <br />
+        <br />
 
-  <button type="submit">{{ editFlag ? "Update" : "Add User" }}</button>
-  <button type="button" *ngIf="!editFlag" (click)="cancelEdit()">cancel</button>
-</form>
+        <fieldset formGroupName="address">
+          <legend>Address:</legend>
 
-<br />
+          <label for="street">Street:</label>
+          <input id="street" formControlName="street" placeholder="street" />
 
-<table>
-  <thead>
-    <tr>
-      <th>S.No</th>
-      <th>Name</th>
-      <th>Username</th>
-      <th>Email</th>
-      <th>Address</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of users; let i = index; trackBy: trackByUserId">
-      <td>{{ i + 1 }}</td>
-      <td>{{ user.name }}</td>
-      <td>{{ user.username }}</td>
-      <td>{{ user.email }}</td>
-      <td>
-        {{ user.address.street }}, {{ user.address.city }},
-        {{ user.address.zipcode }}
-      </td>
-      <td>
-        <button (click)="editUser(user.id)">Edit</button>
-        <button (click)="deleteUser(user.id)">Delete</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+          <label for="city">City:</label>
+          <input id="city" formControlName="city" placeholder="city" />
+
+          <label for="zip">Zip Code:</label>
+          <input id="zip" formControlName="zipcode" placeholder="zip code" />
+        </fieldset>
+
+        <!-- Contact Info -->
+        <!-- <fieldset formGroupName="contact">
+        <legend>Contact Info:</legend>
+
+        <label for="secondaryEmail">Secondary Email:</label>
+        <input
+          id="secondaryEmail"
+          formControlName="email"
+          placeholder="secondary email"
+          />
+
+          <label for="phone">Phone:</label>
+          <input id="phone" formControlName="phone" placeholder="phone" />
+        </fieldset>
+
+        <br /> -->
+
+        <!-- Gender -->
+        <!-- <fieldset>
+        <legend>Gender:</legend>
+
+        <label for="genderMale">
+          <input
+            id="genderMale"
+            type="radio"
+            formControlName="gender"
+            value="male"
+            />
+            Male
+          </label>
+
+          <label for="genderFemale">
+            <input
+              id="genderFemale"
+              type="radio"
+              formControlName="gender"
+              value="female"
+              />
+              Female
+            </label>
+          </fieldset>
+
+          <br /> -->
+
+          <!-- Hobbies -->
+          <!-- <fieldset formArrayName="hobbies">
+          <legend>Hobbies:</legend>
+
+          <div *ngFor="let hobby of hobbies.controls; let i = index">
+            <label [for]="'hobby-' + i">Hobby {{ i + 1 }}</label>
+            <input [id]="'hobby-' + i" [formControlName]="i" />
+          </div>
+
+          <button type="button" (click)="addHobby()">+ Add Hobby</button>
+        </fieldset> -->
+
+        <br />
+
+        <button type="submit">{{ editFlag ? "Update" : "Add User" }}</button>
+        @if (!editFlag) {
+          <button type="button" (click)="cancelEdit()">cancel</button>
+        }
+      </form>
+
+      <br />
+
+      <table>
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of users; track trackByUserId(i, user); let i = $index) {
+            <tr>
+              <td>{{ i + 1 }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                {{ user.address.street }}, {{ user.address.city }},
+                {{ user.address.zipcode }}
+              </td>
+              <td>
+                <button (click)="editUser(user.id)">Edit</button>
+                <button (click)="deleteUser(user.id)">Delete</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
