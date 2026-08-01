@@ -44,7 +44,15 @@ const extraConfig: ApplicationConfig = {
   ],
 };
 
+const config: ApplicationConfig = {
+  providers: [
+    ...(appConfig.providers ?? []),
+    ...(extraConfig.providers ?? []),
+  ],
+};
+
+
 bootstrapApplication(
   AppComponent,
-  mergeApplicationConfig(appConfig, extraConfig)
+  config
 ).catch(console.error);
