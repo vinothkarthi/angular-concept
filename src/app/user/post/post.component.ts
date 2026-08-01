@@ -4,6 +4,7 @@ import {
   HostBinding,
   HostListener,
   OnInit,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,6 +15,7 @@ import { JsonPipe } from '@angular/common';
     selector: 'app-post',
     templateUrl: './post.component.html',
     styleUrl: './post.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [JsonPipe]
 })
 export class PostComponent implements OnInit {

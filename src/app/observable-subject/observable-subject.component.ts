@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   BehaviorSubject,
   Observable,
@@ -13,6 +13,7 @@ import { SharedService } from '../service/shared.service';
     selector: 'app-observable-subject',
     templateUrl: './observable-subject.component.html',
     styleUrl: './observable-subject.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: []
 })
 export class ObservableSubjectComponent implements OnInit {

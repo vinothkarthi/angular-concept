@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, effect, signal } from '@angular/core';
+import { Component, OnInit, computed, effect, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ModalComponent } from './modal/modal.component';
 
 
@@ -6,6 +6,7 @@ import { ModalComponent } from './modal/modal.component';
     selector: 'app-signal',
     templateUrl: './signal.component.html',
     styleUrl: './signal.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [ModalComponent]
 })
 export class SignalComponent implements OnInit {

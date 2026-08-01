@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable, Subscription, bufferTime, combineLatest, concat, concatMap, debounceTime, distinctUntilChanged, filter, forkJoin, from, fromEvent, interval, map, merge, mergeMap, of, race, scan, switchMap, take, takeUntil, tap, zip } from 'rxjs';
 
 @Component({
     selector: 'app-rxjs-join-operators',
     templateUrl: './rxjs-join-operators.component.html',
     styleUrl: './rxjs-join-operators.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: true
 })
 export class RxjsJoinOperatorsComponent implements OnInit, OnDestroy {

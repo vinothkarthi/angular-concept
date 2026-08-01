@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { ANGULAR_FORMS } from '../../shared/angular-forms';
@@ -7,6 +7,7 @@ import { ANGULAR_FORMS } from '../../shared/angular-forms';
     selector: 'app-register-form',
     imports: [CommonModule, ANGULAR_FORMS],
     templateUrl: './register-form.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './register-form.component.scss'
 })
 export class RegisterFormComponent {

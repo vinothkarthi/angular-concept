@@ -1,5 +1,5 @@
 
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, forwardRef, Input, ChangeDetectionStrategy } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
@@ -12,6 +12,7 @@ import {
   // imports: [NgIf],
   templateUrl: './custominput.component.html',
   styleUrl: './custominput.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

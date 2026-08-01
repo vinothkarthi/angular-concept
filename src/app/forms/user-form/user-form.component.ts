@@ -6,6 +6,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewContainerRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ANGULAR_FORMS } from '../../shared/angular-forms';
@@ -43,6 +44,7 @@ import { pickUser } from '../../utils/mapUser';
     selector: 'app-user-form',
     imports: [CommonModule, ANGULAR_FORMS, CustominputComponent],
     templateUrl: './user-form.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './user-form.component.scss'
 })
 export class UserFormComponent implements OnInit, AfterViewInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { personalDetail, userInterface } from '../../interface/user.interface';
 import { Observable } from 'rxjs';
@@ -12,6 +12,7 @@ import { LimittoPipe } from '../../pipes/limitto.pipe';
     selector: 'app-personal',
     templateUrl: './personal.component.html',
     styleUrl: './personal.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [AsyncPipe, UpperCasePipe, LimittoPipe]
 })
 export class PersonalComponent implements OnInit, OnDestroy {

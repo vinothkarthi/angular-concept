@@ -1,4 +1,4 @@
-import { Component, model, output } from '@angular/core';
+import { Component, model, output, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -19,6 +19,7 @@ import { Component, model, output } from '@angular/core';
       </div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [
     `
       .backdrop {

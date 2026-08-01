@@ -5,7 +5,8 @@ import {
   Inject,
   PLATFORM_ID,
   afterNextRender,
-  afterRender,
+  ChangeDetectionStrategy,
+  afterEveryRender
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -13,6 +14,7 @@ import { isPlatformBrowser } from '@angular/common';
   selector: 'app-life-cycle-hook',
   standalone: true,
   templateUrl: './life-cycle-hook.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './life-cycle-hook.component.scss',
 })
 export class LifeCycleHookComponent {
@@ -23,25 +25,18 @@ export class LifeCycleHookComponent {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     // Runs after *every* render cycle like ngAfterViewChecked
-    afterRender({
-      read: () => {
-        console.log(
-          'afterRender → read:',
-          this.MyStyle?.nativeElement?.style.color
-        );
-      },
-      write: () => {
-        console.log('afterRender → write');
-      },
+    afterEveryRender(() => {
+      console.log(
+        'afterEveryRender:',
+        this.MyStyle?.nativeElement?.style.color
+      );
     });
     // Runs only after the *next* render (once) like ngAfterViewInit
-    afterNextRender({
-      write: async () => {
-        if (isPlatformBrowser(this.platformId)) {
-          this.MyStyle.nativeElement.style.color = 'red';
-          await this.createChart();
-        }
-      },
+    afterNextRender(async () => {
+      if (isPlatformBrowser(this.platformId)) {
+        this.MyStyle.nativeElement.style.color = 'red';
+        await this.createChart();
+      }
     });
   }
 
