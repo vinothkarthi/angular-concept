@@ -1,4 +1,4 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
+  /* tsconfig.json is the TypeScript configuration file for the Angular project it manages mainly the compilation options. its is read by the TypeScript compiler (tsc) */
 {
   "compileOnSave": false,
   "compilerOptions": {

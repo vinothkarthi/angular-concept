@@ -50,9 +50,9 @@ import { pickUser } from '../../utils/mapUser';
 export class UserFormComponent implements OnInit, AfterViewInit, OnDestroy {
   userForm: FormGroup<any>;
 
-  @ViewChild('ageFormControlTemplate') ageFormControl!: TemplateRef<any>;
+  @ViewChild('ageFormControlTemplate') ageFormControl!: TemplateRef<any>; // !means that the property will be initialized later and will not be null or undefined. it is used to tell TypeScript that the property will be assigned a value before it is accessed, even though it is not initialized in the constructor. this is useful when using @ViewChild to get a reference to a template or component that will be rendered later in the view.
   @ViewChild('ageFormControlContainer', { read: ViewContainerRef })
-  ageFormControlContainer!: ViewContainerRef;
+  ageFormControlContainer!: ViewContainerRef; // {read: ViewContainerRef} is used to get the reference of the container where the template will be rendered. it is used to create an embedded view of the template in the container. by default, ViewChild returns the first matching element in the view. if you want to get a reference to a different element, you can use the read option to specify the type of the element you want to get a reference to.
   unSubscribe: Subject<any> = new Subject<any>();
   users: any[] = [];
   editFlag: boolean = false;

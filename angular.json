@@ -1,3 +1,4 @@
+/* angular.json is the configuration file for an Angular project that defines the project's structure, build options, and development settings. It specifies the project's root directory, source files, and various build configurations for different environments. This file is essential for managing the Angular project's build process and development workflow. its read by the Angular CLI */
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,

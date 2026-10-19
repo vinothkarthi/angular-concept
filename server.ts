@@ -1,3 +1,5 @@
+/* server.ts is the entry point for the server-side rendering (SSR) of an Angular application using Express.js. It sets up an Express server that serves static files and handles all other requests by rendering the Angular application on the server side. The server uses the CommonEngine from '@angular/ssr/node' to render the Angular application and respond with the generated HTML. The server listens on a specified port (defaulting to 4000) and logs a message indicating that it is running. its read by the Node.js runtime */
+
 import { APP_BASE_HREF } from '@angular/common';
 import { CommonEngine } from '@angular/ssr/node';
 import express from 'express';

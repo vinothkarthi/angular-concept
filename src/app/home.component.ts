@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    this.isBrowser = isPlatformBrowser(this.platformId);
+    this.isBrowser = isPlatformBrowser(this.platformId); // Check if the code is running in the browser or on the server.
   }
 
   ngOnInit() {

@@ -16,7 +16,7 @@ import {
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CustominputComponent),
+      useExisting: forwardRef(() => CustominputComponent), // forwardRef is used to refer to the CustominputComponent class before it is defined. this is necessary because the CustominputComponent class is not yet defined when the providers array is created. it allows us to use the CustominputComponent as a value accessor for form controls.
       multi: true,
     },
   ],

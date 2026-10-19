@@ -1,3 +1,4 @@
+/* package.json is a configuration file for an Angular project that defines the project's metadata, scripts, dependencies, and development dependencies. It specifies the project's name, version, and various npm scripts for building, serving, and testing the application. The dependencies section lists the required libraries and frameworks for the Angular application, while the devDependencies section includes tools and libraries needed for development and testing. This file is essential for managing the project's dependencies and scripts in a Node.js environment.it is read by the npm CLI */
 {
   "name": "angular-concept",
   "version": "0.0.0",
@@ -11,16 +12,16 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^22.1.0",
-    "@angular/common": "^22.1.0",
-    "@angular/compiler": "^22.1.0",
-    "@angular/core": "^22.1.0",
-    "@angular/forms": "^22.1.0",
-    "@angular/platform-browser": "^22.1.0",
-    "@angular/platform-browser-dynamic": "^22.1.0",
-    "@angular/platform-server": "^22.1.0",
-    "@angular/router": "^22.1.0",
-    "@angular/ssr": "^22.1.2",
+    "@angular/animations": "^21.2.19",
+    "@angular/common": "^21.2.19",
+    "@angular/compiler": "^21.2.19",
+    "@angular/core": "^21.2.19",
+    "@angular/forms": "^21.2.19",
+    "@angular/platform-browser": "^21.2.19",
+    "@angular/platform-browser-dynamic": "^21.2.19",
+    "@angular/platform-server": "^21.2.19",
+    "@angular/router": "^21.2.19",
+    "@angular/ssr": "^21.2.19",
     "@ngrx/effects": "^21.1.1",
     "@ngrx/store": "^21.1.1",
     "@ngrx/store-devtools": "^21.1.1",
@@ -31,9 +32,9 @@
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
-    "@angular/build": "^22.1.2",
-    "@angular/cli": "^22.1.2",
-    "@angular/compiler-cli": "^22.1.0",
+    "@angular/build": "^21.2.19",
+    "@angular/cli": "^21.2.19",
+    "@angular/compiler-cli": "^21.2.19",
     "@types/express": "^4.17.17",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^26.1.2",
@@ -44,7 +45,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~6.0.3",
+    "typescript": "~5.9.0",
     "vitest": "^4.0.8"
   }
 }

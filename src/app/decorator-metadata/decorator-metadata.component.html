@@ -1,0 +1,136 @@
+<main class="lesson">
+  <a class="back-link" routerLink="/home">← Back to concepts</a>
+  <h1>Angular decorator metadata</h1>
+  <p>
+    Class decorators tell Angular how a class participates in the application.
+    Their metadata describes how Angular creates, uses, and connects that class.
+  </p>
+
+  <section>
+    <h2>&#64;Component</h2>
+    <p>
+      Defines a component: a view (template) together with its behavior and
+      dependencies.
+    </p>
+    <dl>
+      <dt><code>selector</code></dt>
+      <dd>The element or attribute name used to place the component in a template.</dd>
+      <dt><code>template</code> / <code>templateUrl</code></dt>
+      <dd>Inline template markup or the path to an external template.</dd>
+      <dt><code>styles</code> / <code>styleUrl</code></dt>
+      <dd>Inline styles or the path to an external stylesheet.</dd>
+      <dt><code>imports</code></dt>
+      <dd>Standalone components, directives, pipes, and NgModules used by its template.</dd>
+      <dt><code>providers</code> / <code>viewProviders</code></dt>
+      <dd>Dependency injection providers available to the component and its view.</dd>
+      <dt><code>changeDetection</code>, <code>encapsulation</code>, <code>host</code></dt>
+      <dd>Configure change detection, style scoping, and host element bindings.</dd>
+    </dl>
+    <pre><code>&#64;Component(&#123;
+  selector: 'app-profile',
+  standalone: true,
+  imports: [UserCardComponent],
+  templateUrl: './profile.component.html',
+  styleUrl: './profile.component.scss'
+&#125;)
+export class ProfileComponent &#123;&#125;</code></pre>
+    <p>
+      Standalone is the default in current Angular versions. Set
+      <code>standalone: false</code> when declaring the component in an
+      NgModule.
+    </p>
+  </section>
+
+  <section>
+    <h2>&#64;Directive</h2>
+    <p>
+      Adds behavior to an existing element. It has no view of its own.
+    </p>
+    <dl>
+      <dt><code>selector</code></dt>
+      <dd>CSS selector that identifies where Angular applies the directive.</dd>
+      <dt><code>inputs</code> / <code>outputs</code></dt>
+      <dd>Values accepted by the directive and events it emits to its host template.</dd>
+      <dt><code>host</code> / <code>hostDirectives</code></dt>
+      <dd>Host element bindings and behavior composed from other directives.</dd>
+      <dt><code>providers</code> / <code>exportAs</code></dt>
+      <dd>Providers for the directive and an optional template reference name.</dd>
+    </dl>
+    <pre><code>&#64;Directive(&#123;
+  selector: '[appHighlight]',
+  standalone: true,
+  host: &#123; '(mouseenter)': 'highlight()' &#125;
+&#125;)
+export class HighlightDirective &#123;&#125;</code></pre>
+  </section>
+
+  <section>
+    <h2>&#64;Pipe</h2>
+    <p>
+      Registers a class as a template pipe that transforms a value for display.
+    </p>
+    <dl>
+      <dt><code>name</code></dt>
+      <dd>The name used in template expressions, such as <code>value | titlecase</code>.</dd>
+      <dt><code>pure</code></dt>
+      <dd>When true (the default), Angular calls the pipe when its input arguments change.</dd>
+      <dt><code>standalone</code></dt>
+      <dd>Whether it can be used directly by a standalone component (default: true).</dd>
+    </dl>
+    <pre><code>&#64;Pipe(&#123;
+  name: 'shorten',
+  standalone: true,
+  pure: true
+&#125;)
+export class ShortenPipe &#123;&#125;</code></pre>
+  </section>
+
+  <section>
+    <h2>&#64;Injectable</h2>
+    <p>
+      Marks a class as available for Angular dependency injection. Its
+      <code>providedIn</code> option controls where Angular provides the service.
+    </p>
+    <dl>
+      <dt><code>providedIn</code></dt>
+      <dd>
+        Common values are <code>'root'</code> for an application-wide singleton,
+        <code>'platform'</code> for a platform-wide instance, or a module/type
+        for scoped provision. Use <code>null</code> when providing it explicitly.
+      </dd>
+    </dl>
+    <pre><code>&#64;Injectable(&#123; providedIn: 'root' &#125;)
+export class UserService &#123;&#125;</code></pre>
+    <p>
+      Provider recipes such as <code>useClass</code>, <code>useValue</code>,
+      <code>useFactory</code>, and <code>useExisting</code> belong to provider
+      configuration, not to &#64;Injectable metadata.
+    </p>
+  </section>
+
+  <section>
+    <h2>&#64;NgModule (legacy module-based applications)</h2>
+    <p>
+      Groups declarations, imports, providers, and exports for an NgModule-based
+      application. Modern Angular applications commonly use standalone APIs.
+    </p>
+    <dl>
+      <dt><code>declarations</code></dt>
+      <dd>Non-standalone components, directives, and pipes owned by this module.</dd>
+      <dt><code>imports</code></dt>
+      <dd>Other NgModules and standalone declarations this module uses.</dd>
+      <dt><code>exports</code></dt>
+      <dd>Declarations made available to modules that import this module.</dd>
+      <dt><code>providers</code></dt>
+      <dd>Dependency injection providers registered by the module.</dd>
+      <dt><code>bootstrap</code></dt>
+      <dd>Root component or components bootstrapped by the application module.</dd>
+    </dl>
+    <pre><code>&#64;NgModule(&#123;
+  declarations: [LegacyPageComponent],
+  imports: [CommonModule],
+  exports: [LegacyPageComponent]
+&#125;)
+export class LegacyFeatureModule &#123;&#125;</code></pre>
+  </section>
+</main>

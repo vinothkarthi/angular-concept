@@ -24,6 +24,7 @@ import { UserComponent } from './user/user.component';
 import { RegisterFormComponent } from './forms/register-form/register-form.component';
 import { UserFormComponent } from './forms/user-form/user-form.component';
 import { SharedService } from './service/shared.service';
+import { DecoratorMetadataComponent } from './decorator-metadata/decorator-metadata.component';
 
 export const routes: Routes = [
   // { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -71,6 +72,7 @@ export const routes: Routes = [
   { path: 'lifecycle', component: LifeCycleHookComponent },
   { path: 'register', component: RegisterFormComponent },
   { path: 'signup', component: UserFormComponent },
+  { path: 'decorator-metadata', component: DecoratorMetadataComponent },
   {
     path: 'dependency-injection',
     loadComponent: () =>

@@ -5,7 +5,7 @@ import {
   withFetch,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { provideClientHydration, withNoIncrementalHydration } from '@angular/platform-browser';
+import { provideClientHydration } from '@angular/platform-browser';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -15,6 +15,6 @@ export const appConfig: ApplicationConfig = {
     // 🔥 MUST be here for standalone route reloads
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
 
-    provideClientHydration(withNoIncrementalHydration()), // keep only if SSR/hydration is used
+    provideClientHydration(), // keep only if SSR/hydration is used
   ],
 };
